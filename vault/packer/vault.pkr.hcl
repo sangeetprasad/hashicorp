@@ -5,17 +5,22 @@ variable "aws_region" {
 
 variable "vault_zip" {
   type    = string
-  default = "C:\\Users\\btkra\\Downloads\\vault_1.7.1_linux_amd64.zip"
+  default = "/mnt/c/work/trainings/vault/vault_1.10.0_linux_amd64.zip"
+}
+
+variable "consul_zip" {
+  type    = string
+  default = "/mnt/c/work/trainings/vault/consul_1.10.0_linux_amd64.zip"
 }
 
 variable "vpc_id" {
   type    = string
-  default = "vpc-06626bb552084b94b"
+  default = "vpc-009413024e366650e"
 }
 
 variable "subnet_id" {
   type    = string
-  default = "subnet-090200863e9701b57"
+  default = "subnet-0bcc3d2c2e836bf4f"
 }
 
 data "amazon-ami" "amazon-linux-2" {
@@ -37,7 +42,7 @@ source "amazon-ebs" "amazon-ebs-amazonlinux-2" {
   associate_public_ip_address = true
   force_delete_snapshot       = true
   force_deregister            = true
-  instance_type               = "m5.large"
+  instance_type               = "t3.medium"
   region                      = var.aws_region
   source_ami                  = data.amazon-ami.amazon-linux-2.id
   spot_price                  = "0"
@@ -45,11 +50,11 @@ source "amazon-ebs" "amazon-ebs-amazonlinux-2" {
   ssh_timeout                 = "5m"
   ssh_username                = "ec2-user"
   tags = {
-    Name           = "HashiCorp Vault"
-    OS             = "Amazon Linux 2"
+    Name = "HashiCorp Vault"
+    OS   = "Amazon Linux 2"
   }
-  subnet_id                   = var.subnet_id
-  vpc_id                      = var.vpc_id
+  subnet_id = var.subnet_id
+  vpc_id    = var.vpc_id
 }
 
 build {
@@ -58,6 +63,11 @@ build {
   provisioner "file" {
     destination = "/tmp/vault.zip"
     source      = var.vault_zip
+  }
+
+  provisioner "file" {
+    destination = "/tmp/consul.zip"
+    source      = var.consul_zip
   }
 
   provisioner "file" {

@@ -1,0 +1,20 @@
+{
+"bind_addr": "172.31.120.254", 
+"datacenter": "dc1",
+"data_dir": "/var/consul",
+"encrypt": "EXz7LFN8hpQ4id8EDYiFoQ==",
+"log_level": "INFO",
+"enable_syslog": true,
+"enable_debug": true,
+"node_name": "ConsulServer1",
+"server": true,
+"bootstrap_expect": 3,
+"leave_on_terminate": false,
+"skip_leave_on_interrupt": true,
+"rejoin_after_leave": true,
+"retry_join": [ 
+  "172.31.120.254:8301",
+  "172.31.116.171:8301",
+  "172.31.112.178:8301"
+  ]
+ }
